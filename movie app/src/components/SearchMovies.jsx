@@ -1,27 +1,24 @@
-import responseMovies from '../mocks/result-movies.json';
-import withoutMovies from '../mocks/no-results.json';
-
-const ListOfMovies = () => {
-  const movies = responseMovies.Search;
-  const hasMovies = movies?.length > 0;
-
+function ListOfMovies({ movies }) {
   return (
-    <div>
-      {hasMovies ? (
-        <ul>
-          {movies.map((movie) => (
-            <li key={movie.imdbID}>
-              <h3>Title: {movie.Title}</h3>
-              <p>Year: {movie.Year}</p>
-              <img src={movie.Poster} alt={movie.Title} />
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No movies founded</p>
-      )}
-    </div>
+    <ul>
+      {movies.map((movie) => (
+        <li key={movie.id}>
+          <h3>Title: {movie.title}</h3>
+          <img src={movie.poster} alt={movie.title} />
+          <p>Year: {movie.year}</p>
+        </li>
+      ))}
+    </ul>
   );
-};
+}
+
+function NoMoviesResults() {
+  return <p>No movies were found</p>;
+}
+
+export function Movies({ movies }) {
+  const hasMovies = movies?.length > 0;
+  return hasMovies ? <ListOfMovies movies={movies} /> : <NoMoviesResults />;
+}
 
 export default ListOfMovies;
