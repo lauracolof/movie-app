@@ -1,12 +1,18 @@
 import './App.css';
 import Movies from './components/SearchMovies';
 import { useMovies } from './hooks/UseMovies';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 function useSearch() {
   const [search, updateSearch] = useState('');
   const [error, setError] = useState(null);
+  //flag: is the first time that user use the input?
+  const isFirstInput = useRef(true);
   useEffect(() => {
+    if (isFirstInput.current) {
+      isFirstInput.current = search === '';
+      return;
+    }
     if (search === '') {
       setError(`you cannot search for an empty movie`);
       return;

@@ -3,11 +3,13 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;  
+  max-width: 800px;
 }
 
 main {
   display: flex;
   justify-content: center;
+  width: 100%; /* !important for responsive */
 }
 
 form {
@@ -18,4 +20,30 @@ form {
 
 h1 {
   color: #e05ef1
+}
+
+/* !GRID PARA RESPONSIVE */
+.movies {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  gap: 45px; /*separacion entre elementos*/
+  /* !important for responsive */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.movie {
+  text-align: center;
+}
+
+.movie h3, .movie p {
+  padding-bottom: 0;
+  margin: 0;
+}
+
+.movie img {
+  border-radius: 8px;
+  margin-top: 10px;
 }

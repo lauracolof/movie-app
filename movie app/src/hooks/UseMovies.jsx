@@ -6,7 +6,7 @@ export function useMovies() {
   const mappedMovies = movies?.map((movie) => ({
     id: movie.imdbID,
     title: movie.Title,
-    year: movie.year,
+    year: movie.Year,
     poster: movie.Poster,
   }));
 
