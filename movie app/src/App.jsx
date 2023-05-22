@@ -1,15 +1,30 @@
 import './App.css';
 import Movies from './components/SearchMovies';
 import { useMovies } from './hooks/UseMovies';
-import { useEffect, useRef, useState } from 'react';
-// import { Movies } from './components/Movies';
+import { useEffect, useState } from 'react';
+
+function useSearch() {
+  const [search, updateSearch] = useState('');
+  const [error, setError] = useState(null);
+  useEffect(() => {
+    if (search === '') {
+      setError(`you cannot search for an empty movie`);
+      return;
+    }
+    if (search.length < 2) {
+      setError(`search must have at least two characters`);
+      return;
+    }
+    setError(null);
+  }, [search]);
+
+  return { search, updateSearch, error };
+}
 
 function App() {
   const { movies } = useMovies();
-  const [query, setQuery] = useState('');
-  const [error, setError] = useState(null);
-
-  // we can recover all the data with an event in a form, if we have more than 1 input, with the name. For example:
+  const { search, updateSearch, error } = useSearch();
+  //if we have more than one input for example, we can retrieve all the data at once:
   // const fields = new window.FormData(event.target);
   // const query = fields.get('query');
   // <input name='query', ...>
@@ -23,18 +38,7 @@ function App() {
 
   const handleChange = (event) => {
     //check that we use the last value, not prev
-    const newQuery = event.target.value;
-    if (newQuery.startsWith(' ')) return;
-    setQuery(newQuery);
-    if (newQuery === '') {
-      setError(`you cannot search for an empty movie`);
-      return;
-    }
-    if (newQuery.length < 2) {
-      setError(`search must have at least two characters`);
-      return;
-    }
-    setError(null);
+    updateSearch(event.target.value);
   };
 
   return (
@@ -44,9 +48,13 @@ function App() {
         <form onSubmit={handleSubmit} className='form'>
           <input
             onChange={handleChange}
-            value={query}
+            value={search}
             name='query'
             placeholder='Harry Potter, X-Men, ...'
+            style={{
+              border: '1px solid transparent',
+              borderColor: error ? 'red' : 'transparent',
+            }}
           />
           <button type='submit'>Search</button>
         </form>
