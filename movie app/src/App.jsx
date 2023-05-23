@@ -3,10 +3,11 @@ import Movies from './components/SearchMovies';
 import { useMovies } from './hooks/UseMovies';
 import { useEffect, useRef, useState } from 'react';
 
+//!validations
 function useSearch() {
   const [search, updateSearch] = useState('');
   const [error, setError] = useState(null);
-  //flag: is the first time that user use the input?
+  //flag: is the first time the user would use the input?
   const isFirstInput = useRef(true);
   useEffect(() => {
     if (isFirstInput.current) {
@@ -28,8 +29,9 @@ function useSearch() {
 }
 
 function App() {
-  const { movies } = useMovies();
   const { search, updateSearch, error } = useSearch();
+  const { movies, getMovies } = useMovies({ search });
+
   //if we have more than one input for example, we can retrieve all the data at once:
   // const fields = new window.FormData(event.target);
   // const query = fields.get('query');
@@ -38,8 +40,8 @@ function App() {
   // const fields =  Object.fromEntries(new window.FormData(event.target));
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log({ query });
     //recover DOM element and save
+    getMovies();
   };
 
   const handleChange = (event) => {
