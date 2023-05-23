@@ -1,7 +1,8 @@
 import './App.css';
 import Movies from './components/SearchMovies';
 import { useMovies } from './hooks/UseMovies';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import debounce from 'just-debounce-it';
 
 //!validations
 function useSearch() {
@@ -39,10 +40,11 @@ function App() {
   // <input name='query', ...>
   //with several inputs:
   // const fields =  Object.fromEntries(new window.FormData(event.target));
+
   const handleSubmit = (event) => {
     event.preventDefault();
     //recover DOM element and save
-    getMovies();
+    getMovies({ search });
   };
 
   const handleSort = () => {
@@ -50,9 +52,17 @@ function App() {
     setSort(!sort);
   };
 
+  const debouncedGetMovies = useCallback(
+    debounce((search) => {
+      getMovies({ search });
+    }, 300),
+    []
+  );
+
   const handleChange = (event) => {
     //check that we use the last value, not prev
     updateSearch(event.target.value);
+    debouncedGetMovies();
   };
 
   return (
@@ -64,7 +74,7 @@ function App() {
             onChange={handleChange}
             value={search}
             name='query'
-            placeholder='Harry Potter, X-Men, Avengers...'
+            placeholder='Harry Potter, Origin, Avengers...'
             style={{
               border: '1px solid transparent',
               borderColor: error ? 'red' : 'transparent',
