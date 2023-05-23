@@ -54,7 +54,7 @@ h1 {
 
 input {
   position: relative;
-  left: 19em;
+  left: 20em;
   width: 215px;
 }
 
@@ -66,4 +66,9 @@ button {
 .error {
   position: relative;
   left: 19rem;
+}
+
+.check {
+  position: relative;
+  left: 10px;
 }

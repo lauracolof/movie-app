@@ -29,8 +29,9 @@ function useSearch() {
 }
 
 function App() {
+  const [sort, setSort] = useState(false);
   const { search, updateSearch, error } = useSearch();
-  const { movies, getMovies, loading } = useMovies({ search });
+  const { movies, getMovies, loading } = useMovies({ search, sort });
 
   //if we have more than one input for example, we can retrieve all the data at once:
   // const fields = new window.FormData(event.target);
@@ -42,6 +43,11 @@ function App() {
     event.preventDefault();
     //recover DOM element and save
     getMovies();
+  };
+
+  const handleSort = () => {
+    //active - inactive
+    setSort(!sort);
   };
 
   const handleChange = (event) => {
@@ -58,11 +64,18 @@ function App() {
             onChange={handleChange}
             value={search}
             name='query'
-            placeholder='Harry Potter, X-Men, ...'
+            placeholder='Harry Potter, X-Men, Avengers...'
             style={{
               border: '1px solid transparent',
               borderColor: error ? 'red' : 'transparent',
             }}
+          />
+          <label htmlFor=''>Sort</label>
+          <input
+            className='check'
+            type='checkbox'
+            onChange={handleSort}
+            check={sort}
           />
           <button type='submit'>Search</button>
         </form>

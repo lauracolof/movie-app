@@ -1,8 +1,8 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useMemo } from 'react';
 import { searchMovies } from '../services/movies.js';
 
 //black box to iterate the contract to fetching the data
-export function useMovies({ search }) {
+export function useMovies({ search, sort }) {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -25,5 +25,16 @@ export function useMovies({ search }) {
     }
   };
 
-  return { movies, getMovies, loading };
+  // const sortMovies = sort
+  //   ? [...movies].sort((a, b) => a.title.localeCompare(b.title))
+  //   : movies;
+
+  const sortMovies = useMemo(() => {
+    return sort
+      ? [...movies].sort((a, b) => a.title.localeCompare(b.title))
+      : movies;
+    //!only render when movies or sort (dependencies) change
+  }, [sort, movies]);
+
+  return { movies: sortMovies, getMovies, loading };
 }
