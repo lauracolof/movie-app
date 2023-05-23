@@ -30,7 +30,7 @@ function useSearch() {
 
 function App() {
   const { search, updateSearch, error } = useSearch();
-  const { movies, getMovies } = useMovies({ search });
+  const { movies, getMovies, loading } = useMovies({ search });
 
   //if we have more than one input for example, we can retrieve all the data at once:
   // const fields = new window.FormData(event.target);
@@ -66,14 +66,14 @@ function App() {
           />
           <button type='submit'>Search</button>
         </form>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
+        {error && (
+          <p className='error' style={{ color: 'red' }}>
+            {error}
+          </p>
+        )}
       </header>
 
-      <main>
-        <ul>
-          <Movies movies={movies} />
-        </ul>
-      </main>
+      <main>{loading ? <p>Loading...</p> : <Movies movies={movies} />}</main>
     </div>
   );
 }

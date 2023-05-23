@@ -2,8 +2,9 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;  
-  max-width: 800px;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
 }
 
 main {
@@ -19,14 +20,16 @@ form {
 }
 
 h1 {
-  color: #e05ef1
+  color: #e05ef1;
+  position: relative;
+  left: 25rem;
 }
 
 /* !GRID PARA RESPONSIVE */
 .movies {
   list-style: none;
-  margin: 0;
-  padding: 0;
+  padding-top: 2rem;
+  padding-left: 18.5rem;
   width: 100%;
   gap: 45px; /*separacion entre elementos*/
   /* !important for responsive */
@@ -46,4 +49,21 @@ h1 {
 .movie img {
   border-radius: 8px;
   margin-top: 10px;
+  max-width: 250px;
+}
+
+input {
+  position: relative;
+  left: 19em;
+  width: 215px;
+}
+
+button {
+  position: relative;
+  left: 20em;
+}
+
+.error {
+  position: relative;
+  left: 19rem;
 }
